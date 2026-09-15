@@ -4,9 +4,7 @@ from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import semantic_search
 
 from astrophysical_lab.models import RetrievedPassage, ScientificPaper, ScientificPassage
-
-
-DEFAULT_MODEL = "sentence-transformers/multi-qa-MiniLM-L6-cos-v1"
+from astrophysical_lab.config import RETRIEVAL_MODEL
 
 
 def split_into_passages(
@@ -45,7 +43,7 @@ class SemanticRetriever:
 
     def __init__(
         self,
-        model_name: str = DEFAULT_MODEL,
+        model_name: str = RETRIEVAL_MODEL,
     ) -> None:
         self.model = SentenceTransformer(model_name)
 

@@ -2,35 +2,43 @@ import numpy as np
 from scipy.special import softmax
 from sentence_transformers import CrossEncoder
 
-from astrophysical_lab.models import (
-    EvidenceAssessment,
-    RetrievedPassage,
-)
+from astrophysical_lab.config import NLI_MIN_CONFIDENCE, NLI_MODEL
+from astrophysical_lab.models import EvidenceAssessment, EvidenceLabel, RetrievedPassage
 
 
-DEFAULT_NLI_MODEL = "cross-encoder/nli-MiniLM2-L6-H768"
-
-# Translate NLI terminology into labels that are easier to interpret in the scientific evidence pipeline.
 NLI_TO_EVIDENCE = {
     "entailment": "support",
     "neutral": "neutral",
     "contradiction": "contradict",
 }
 
-MIN_CONFIDENCE = 0.70
+
+def resolve_evidence_label(
+    raw_label: str,
+    confidence: float,
+    min_confidence: float = NLI_MIN_CONFIDENCE,
+) -> EvidenceLabel:
+    """Convert an NLI prediction into a conservative evidence label."""
+    if confidence < min_confidence:
+        return "neutral"
+
+    try:
+        return NLI_TO_EVIDENCE[raw_label]
+    except KeyError as exc:
+        raise ValueError(
+            f"Unsupported NLI label: {raw_label}"
+        ) from exc
 
 
 class NLIClassifier:
-    """Assess how scientific passages relate to a textual claim."""
+    """Estimate the relation between retrieved passages and a claim."""
 
     def __init__(
         self,
-        model_name: str = DEFAULT_NLI_MODEL,
+        model_name: str = NLI_MODEL,
     ) -> None:
         self.model = CrossEncoder(model_name)
 
-        # Read the model's label mapping instead of assuming an ordering.
-        # For the default model these are: contradiction, entailment, neutral.
         self.id2label = {
             int(index): label.lower()
             for index, label
@@ -42,22 +50,14 @@ class NLIClassifier:
         claim: str,
         passages: list[RetrievedPassage],
     ) -> list[EvidenceAssessment]:
-        """Classify retrieved passages as support, neutral, or contradict.
-
-        In NLI terminology:
-            - passage = premise
-            - claim = hypothesis
-        """
         if not passages:
             return []
 
-        # Each retrieved passage is evaluated against the same claim.
         pairs = [
             (passage.text, claim)
             for passage in passages
         ]
 
-        # CrossEncoder outputs raw classification scores (logits).
         logits = np.asarray(
             self.model.predict(
                 pairs,
@@ -65,15 +65,10 @@ class NLIClassifier:
             )
         )
 
-        # Ensure a two-dimensional shape even if only one passage is used.
         if logits.ndim == 1:
             logits = logits.reshape(1, -1)
 
-        # Convert raw model scores into probabilities.
-        probabilities = softmax(
-            logits,
-            axis=1,
-        )
+        probabilities = softmax(logits, axis=1)
 
         assessments = []
 
@@ -83,18 +78,17 @@ class NLIClassifier:
                 for index, score in enumerate(scores)
             }
 
-            # Select the NLI class with the highest probability.
-            nli_label = max(
+            raw_label = max(
                 score_by_label,
                 key=score_by_label.get,
             )
 
-            confidence = score_by_label[nli_label]
+            confidence = score_by_label[raw_label]
 
-            if confidence < MIN_CONFIDENCE:
-                evidence_label = "neutral"
-            else:
-                evidence_label = NLI_TO_EVIDENCE[nli_label]
+            label = resolve_evidence_label(
+                raw_label,
+                confidence,
+            )
 
             assessments.append(
                 EvidenceAssessment(
@@ -103,8 +97,8 @@ class NLIClassifier:
                     passage=passage.text,
                     claim=claim,
                     retrieval_similarity=passage.similarity,
-                    raw_nli_label=nli_label,
-                    label=evidence_label,
+                    raw_nli_label=raw_label,
+                    label=label,
                     confidence=confidence,
                     support_score=score_by_label["entailment"],
                     neutral_score=score_by_label["neutral"],
