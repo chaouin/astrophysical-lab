@@ -1,23 +1,24 @@
-from astrophysical_lab.analysis.populations import build_giant_planet_host_populations
+from astrophysical_lab.analysis.populations import (
+    build_giant_planet_host_populations,
+)
 from astrophysical_lab.analysis.statistics import (
     compare_metallicity,
     summarize_population,
 )
 from astrophysical_lab.data.nasa_exoplanet import fetch_exoplanets
+from astrophysical_lab.hypothesis import build_metallicity_hypothesis
 from astrophysical_lab.models import ExperimentResult
-from astrophysical_lab.reporting import plot_metallicity_distributions, save_result_json
-
-QUESTION = (
-    "Are short-period giant planets preferentially found around metal-rich stars?"
-)
-
-HYPOTHESIS = (
-    "Host stars of short-period giant planets have higher stellar metallicity than host stars of longer-period giant planets."
+from astrophysical_lab.reporting import (
+    plot_metallicity_distributions,
+    save_result_json,
 )
 
 
-def run_experiment() -> ExperimentResult:
-    """Run the complete metallicity experiment."""
+def run_experiment(
+    save_outputs: bool = False,
+) -> ExperimentResult:
+    """Run the metallicity experiment."""
+    hypothesis = build_metallicity_hypothesis()
     dataframe = fetch_exoplanets()
 
     populations = build_giant_planet_host_populations(dataframe)
@@ -38,25 +39,26 @@ def run_experiment() -> ExperimentResult:
     )
 
     result = ExperimentResult(
-        question=QUESTION,
-        hypothesis=HYPOTHESIS,
+        question=hypothesis.question,
+        hypothesis=hypothesis.statement,
         short_period_hosts=short_summary,
         comparison_hosts=comparison_summary,
         statistical_result=statistical_result,
     )
 
-    save_result_json(result)
+    if save_outputs:
+        save_result_json(result)
 
-    plot_metallicity_distributions(
-        populations.short_period_hosts,
-        populations.comparison_hosts,
-    )
+        plot_metallicity_distributions(
+            populations.short_period_hosts,
+            populations.comparison_hosts,
+        )
 
     return result
 
 
 if __name__ == "__main__":
-    result = run_experiment()
+    result = run_experiment(save_outputs=True)
 
     print()
     print("ASTROPHYSICAL LAB")
