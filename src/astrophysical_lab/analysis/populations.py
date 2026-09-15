@@ -1,11 +1,12 @@
 from dataclasses import dataclass
+
+import pandas as pd
+
 from astrophysical_lab.config import (
     MAX_GIANT_MASS_JUPITER,
     MIN_GIANT_MASS_JUPITER,
     SHORT_PERIOD_DAYS,
 )
-
-import pandas as pd
 
 
 @dataclass(frozen=True)

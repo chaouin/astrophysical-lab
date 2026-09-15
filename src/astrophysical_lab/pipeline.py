@@ -1,11 +1,10 @@
+from astrophysical_lab.config import ARXIV_QUERY, DEFAULT_MAX_PAPERS, DEFAULT_TOP_K
 from astrophysical_lab.experiment import run_experiment
 from astrophysical_lab.hypothesis import build_metallicity_hypothesis
 from astrophysical_lab.literature.arxiv_client import search_papers
 from astrophysical_lab.literature.nli import NLIClassifier
 from astrophysical_lab.literature.retriever import SemanticRetriever
 from astrophysical_lab.models import InvestigationReport
-
-from astrophysical_lab.config import ARXIV_QUERY, DEFAULT_MAX_PAPERS, DEFAULT_TOP_K
 
 
 def investigate(

@@ -1,9 +1,11 @@
 from astrophysical_lab.analysis.populations import build_giant_planet_host_populations
-from astrophysical_lab.analysis.statistics import compare_metallicity,summarize_population
+from astrophysical_lab.analysis.statistics import (
+    compare_metallicity,
+    summarize_population,
+)
 from astrophysical_lab.data.nasa_exoplanet import fetch_exoplanets
 from astrophysical_lab.models import ExperimentResult
-from astrophysical_lab.reporting import plot_metallicity_distributions,save_result_json
-
+from astrophysical_lab.reporting import plot_metallicity_distributions, save_result_json
 
 QUESTION = (
     "Are short-period giant planets preferentially found around metal-rich stars?"

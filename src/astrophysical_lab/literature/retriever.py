@@ -3,8 +3,12 @@ import re
 from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import semantic_search
 
-from astrophysical_lab.models import RetrievedPassage, ScientificPaper, ScientificPassage
 from astrophysical_lab.config import RETRIEVAL_MODEL
+from astrophysical_lab.models import (
+    RetrievedPassage,
+    ScientificPaper,
+    ScientificPassage,
+)
 
 
 def split_into_passages(

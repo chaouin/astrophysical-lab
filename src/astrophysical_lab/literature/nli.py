@@ -5,7 +5,6 @@ from sentence_transformers import CrossEncoder
 from astrophysical_lab.config import NLI_MIN_CONFIDENCE, NLI_MODEL
 from astrophysical_lab.models import EvidenceAssessment, EvidenceLabel, RetrievedPassage
 
-
 NLI_TO_EVIDENCE = {
     "entailment": "support",
     "neutral": "neutral",

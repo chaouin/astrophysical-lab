@@ -3,7 +3,6 @@ from io import StringIO
 import pandas as pd
 import requests
 
-
 TAP_URL = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 
 EXOPLANET_QUERY = """

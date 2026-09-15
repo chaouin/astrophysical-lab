@@ -1,7 +1,10 @@
 import pandas as pd
 import pytest
 
-from astrophysical_lab.analysis.statistics import compare_metallicity, summarize_population
+from astrophysical_lab.analysis.statistics import (
+    compare_metallicity,
+    summarize_population,
+)
 
 
 def test_summarize_population():
