@@ -31,9 +31,7 @@ def search_papers(
     try:
         results = list(client.results(search))
     except Exception as exc:
-        raise ArxivRetrievalError(
-            "Could not retrieve papers from arXiv."
-        ) from exc
+        raise ArxivRetrievalError("Could not retrieve papers from arXiv.") from exc
 
     papers = []
 
@@ -45,10 +43,7 @@ def search_papers(
                 paper_id=paper_id,
                 title=" ".join(result.title.split()),
                 abstract=" ".join(result.summary.split()),
-                authors=tuple(
-                    author.name
-                    for author in result.authors
-                ),
+                authors=tuple(author.name for author in result.authors),
                 published=result.published.date().isoformat(),
                 url=result.entry_id,
             )

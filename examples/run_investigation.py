@@ -33,10 +33,7 @@ def main() -> None:
         start=1,
     ):
         print()
-        print(
-            f"{index}. [{evidence.label.upper()}] "
-            f"{evidence.paper_title}"
-        )
+        print(f"{index}. [{evidence.label.upper()}] {evidence.paper_title}")
         print(
             f"   retrieval={evidence.retrieval_similarity:.3f} | "
             f"NLI={evidence.raw_nli_label} "

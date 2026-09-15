@@ -63,10 +63,7 @@ class SemanticRetriever:
         if not passages:
             return []
 
-        corpus = [
-            passage.text
-            for passage in passages
-        ]
+        corpus = [passage.text for passage in passages]
 
         # The scientific question is encoded as a retrieval query.
         query_embedding = self.model.encode_query(

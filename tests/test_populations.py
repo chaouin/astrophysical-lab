@@ -22,11 +22,11 @@ def test_build_giant_planet_host_populations():
                 "Planet D1",
             ],
             "pl_orbper": [
-                5.0,    # short-period giant
-                20.0,   # same host, longer-period giant
-                30.0,   # comparison giant
-                3.0,    # too small to be a giant
-                4.0,    # too massive to be a planet in our definition
+                5.0,  # short-period giant
+                20.0,  # same host, longer-period giant
+                30.0,  # comparison giant
+                3.0,  # too small to be a giant
+                4.0,  # too massive to be a planet in our definition
             ],
             "pl_bmassj": [
                 1.0,
@@ -59,10 +59,9 @@ def test_build_giant_planet_host_populations():
     assert comparison_hosts.iloc[0]["hostname"] == "Star B"
 
     # The two populations must not overlap.
-    assert set(short_hosts["hostname"]).isdisjoint(
-        set(comparison_hosts["hostname"])
-    )
-    
+    assert set(short_hosts["hostname"]).isdisjoint(set(comparison_hosts["hostname"]))
+
+
 def test_missing_required_columns_raises_error():
     dataframe = pd.DataFrame(
         {

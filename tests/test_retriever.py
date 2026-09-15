@@ -19,7 +19,4 @@ def test_split_into_passages_keeps_scientific_sentences():
     passages = split_into_passages([paper])
 
     assert len(passages) == 2
-    assert all(
-        passage.paper_id == "1234.5678"
-        for passage in passages
-    )
+    assert all(passage.paper_id == "1234.5678" for passage in passages)

@@ -99,6 +99,7 @@ class HypothesisSpec:
     statistical_test: str
     data_source: str
 
+
 @dataclass(frozen=True)
 class InvestigationReport:
     hypothesis: HypothesisSpec

@@ -40,10 +40,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--top-k",
         type=int,
         default=DEFAULT_TOP_K,
-        help=(
-            "Number of scientific passages to retain "
-            f"(default: {DEFAULT_TOP_K})."
-        ),
+        help=(f"Number of scientific passages to retain (default: {DEFAULT_TOP_K})."),
     )
 
     investigate_parser.add_argument(
@@ -83,10 +80,7 @@ def print_report(report: InvestigationReport) -> None:
         start=1,
     ):
         print()
-        print(
-            f"{index}. [{evidence.label.upper()}] "
-            f"{evidence.paper_title}"
-        )
+        print(f"{index}. [{evidence.label.upper()}] {evidence.paper_title}")
 
         print(
             f"   retrieval={evidence.retrieval_similarity:.3f} | "

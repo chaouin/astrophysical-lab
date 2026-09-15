@@ -24,9 +24,7 @@ def resolve_evidence_label(
     try:
         return NLI_TO_EVIDENCE[raw_label]
     except KeyError as exc:
-        raise ValueError(
-            f"Unsupported NLI label: {raw_label}"
-        ) from exc
+        raise ValueError(f"Unsupported NLI label: {raw_label}") from exc
 
 
 class NLIClassifier:
@@ -40,8 +38,7 @@ class NLIClassifier:
 
         self.id2label = {
             int(index): label.lower()
-            for index, label
-            in self.model.model.config.id2label.items()
+            for index, label in self.model.model.config.id2label.items()
         }
 
     def assess(
@@ -52,10 +49,7 @@ class NLIClassifier:
         if not passages:
             return []
 
-        pairs = [
-            (passage.text, claim)
-            for passage in passages
-        ]
+        pairs = [(passage.text, claim) for passage in passages]
 
         logits = np.asarray(
             self.model.predict(
@@ -73,8 +67,7 @@ class NLIClassifier:
 
         for passage, scores in zip(passages, probabilities):
             score_by_label = {
-                self.id2label[index]: float(score)
-                for index, score in enumerate(scores)
+                self.id2label[index]: float(score) for index, score in enumerate(scores)
             }
 
             raw_label = max(

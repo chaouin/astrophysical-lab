@@ -34,9 +34,7 @@ def compare_metallicity(
     comparison_met = comparison_hosts["st_met"].dropna()
 
     if short_met.empty or comparison_met.empty:
-        raise ValueError(
-            "Both populations must contain metallicity observations."
-        )
+        raise ValueError("Both populations must contain metallicity observations.")
 
     # Mann-Whitney U is used because it does not assume normally
     # distributed metallicity values.
@@ -52,9 +50,7 @@ def compare_metallicity(
     # Statistical significance does not indicate effect magnitude,
     # so we also report rank-biserial correlation.
     # Positive values indicate higher metallicity in the short-period group.
-    rank_biserial = (
-        2 * float(result.statistic) / (n_short * n_comparison)
-    ) - 1
+    rank_biserial = (2 * float(result.statistic) / (n_short * n_comparison)) - 1
 
     median_short = float(short_met.median())
     median_comparison = float(comparison_met.median())

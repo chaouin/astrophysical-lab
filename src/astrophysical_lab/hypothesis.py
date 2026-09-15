@@ -6,10 +6,14 @@ def build_metallicity_hypothesis() -> HypothesisSpec:
 
     return HypothesisSpec(
         question="Are short-period giant planets preferentially found around metal-rich stars?",
-        statement=("Host stars of short-period giant planets have higher stellar metallicity "
-                    "than other giant-planet hosts."),
-        literature_claim=( "Giant planets are more common around metal-rich stars than around "
-                           "metal-poor stars."),
+        statement=(
+            "Host stars of short-period giant planets have higher stellar metallicity "
+            "than other giant-planet hosts."
+        ),
+        literature_claim=(
+            "Giant planets are more common around metal-rich stars than around "
+            "metal-poor stars."
+        ),
         independent_variable="giant-planet host population",
         dependent_variable="stellar metallicity [Fe/H]",
         expected_relation="short-period hosts > comparison hosts",

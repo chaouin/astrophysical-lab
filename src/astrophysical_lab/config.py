@@ -12,9 +12,7 @@ DEFAULT_MAX_PAPERS = 20
 DEFAULT_TOP_K = 5
 
 ARXIV_QUERY = (
-    'cat:astro-ph.EP AND '
-    '(all:"giant planet" OR all:"hot Jupiter") AND '
-    'all:metallicity'
+    'cat:astro-ph.EP AND (all:"giant planet" OR all:"hot Jupiter") AND all:metallicity'
 )
 
 # NLI
