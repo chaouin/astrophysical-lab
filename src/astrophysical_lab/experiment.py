@@ -2,6 +2,7 @@ from astrophysical_lab.analysis.populations import build_giant_planet_host_popul
 from astrophysical_lab.analysis.statistics import compare_metallicity,summarize_population
 from astrophysical_lab.data.nasa_exoplanet import fetch_exoplanets
 from astrophysical_lab.models import ExperimentResult
+from astrophysical_lab.reporting import plot_metallicity_distributions,save_result_json
 
 
 QUESTION = (
@@ -36,13 +37,22 @@ def run_experiment() -> ExperimentResult:
         populations.comparison_hosts,
     )
 
-    return ExperimentResult(
+    result = ExperimentResult(
         question=QUESTION,
         hypothesis=HYPOTHESIS,
-        short_period_giants=short_summary,
-        comparison_giants=comparison_summary,
+        short_period_hosts=short_summary,
+        comparison_hosts=comparison_summary,
         statistical_result=statistical_result,
     )
+
+    save_result_json(result)
+
+    plot_metallicity_distributions(
+        populations.short_period_hosts,
+        populations.comparison_hosts,
+    )
+
+    return result
 
 
 if __name__ == "__main__":
@@ -58,8 +68,8 @@ if __name__ == "__main__":
     print("\nPopulations")
     print("-" * 60)
 
-    short = result.short_period_giants
-    comparison = result.comparison_giants
+    short = result.short_period_hosts
+    comparison = result.comparison_hosts
 
     print(
         f"{short.name}: "

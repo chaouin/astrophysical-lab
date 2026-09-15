@@ -30,6 +30,6 @@ class StatisticalResult:
 class ExperimentResult:
     question: str
     hypothesis: str
-    short_period_giants: PopulationSummary
-    comparison_giants: PopulationSummary
+    short_period_hosts: PopulationSummary
+    comparison_hosts: PopulationSummary
     statistical_result: StatisticalResult
