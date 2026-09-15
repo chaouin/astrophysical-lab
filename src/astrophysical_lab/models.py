@@ -8,6 +8,12 @@ EvidenceConclusion = Literal[
     "inconclusive",
 ]
 
+EvidenceLabel = Literal[
+    "support",
+    "neutral",
+    "contradict",
+]
+
 
 @dataclass(frozen=True)
 class PopulationSummary:
@@ -58,3 +64,21 @@ class RetrievedPassage:
     paper_title: str
     text: str
     similarity: float
+
+
+@dataclass(frozen=True)
+class EvidenceAssessment:
+    paper_id: str
+    paper_title: str
+    passage: str
+    claim: str
+
+    retrieval_similarity: float
+
+    raw_nli_label: str
+    label: EvidenceLabel
+    confidence: float
+
+    support_score: float
+    neutral_score: float
+    contradict_score: float
