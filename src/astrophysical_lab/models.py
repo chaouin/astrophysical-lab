@@ -33,3 +33,28 @@ class ExperimentResult:
     short_period_hosts: PopulationSummary
     comparison_hosts: PopulationSummary
     statistical_result: StatisticalResult
+
+
+@dataclass(frozen=True)
+class ScientificPaper:
+    paper_id: str
+    title: str
+    abstract: str
+    authors: tuple[str, ...]
+    published: str
+    url: str
+
+
+@dataclass(frozen=True)
+class ScientificPassage:
+    paper_id: str
+    paper_title: str
+    text: str
+
+
+@dataclass(frozen=True)
+class RetrievedPassage:
+    paper_id: str
+    paper_title: str
+    text: str
+    similarity: float

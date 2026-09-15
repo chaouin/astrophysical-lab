@@ -6,13 +6,11 @@ from astrophysical_lab.reporting import plot_metallicity_distributions,save_resu
 
 
 QUESTION = (
-    "Are short-period giant planets preferentially found "
-    "around metal-rich stars?"
+    "Are short-period giant planets preferentially found around metal-rich stars?"
 )
 
 HYPOTHESIS = (
-    "Host stars of short-period giant planets have higher "
-    "stellar metallicity than host stars of longer-period giant planets."
+    "Host stars of short-period giant planets have higher stellar metallicity than host stars of longer-period giant planets."
 )
 
 

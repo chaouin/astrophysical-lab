@@ -12,6 +12,8 @@ dependencies = [
     "requests>=2.31",
     "scipy>=1.11",
     "matplotlib>=3.8",
+    "arxiv>=2.1",
+    "sentence-transformers>=3.0",
 ]
 
 [project.optional-dependencies]
