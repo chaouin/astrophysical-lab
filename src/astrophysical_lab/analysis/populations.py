@@ -40,9 +40,7 @@ def build_giant_planet_host_populations(
     missing = required_columns - set(dataframe.columns)
 
     if missing:
-        raise ValueError(
-            f"Dataset is missing required columns: {sorted(missing)}"
-        )
+        raise ValueError(f"Dataset is missing required columns: {sorted(missing)}")
 
     clean = dataframe.dropna(
         subset=[
@@ -61,38 +59,21 @@ def build_giant_planet_host_populations(
         )
     ].copy()
 
-    giants = clean[
-        clean["pl_bmassj"].between(
-            MIN_GIANT_MASS_JUPITER,
-            MAX_GIANT_MASS_JUPITER,
-            inclusive="both",
-        )
-    ].copy()
+    giants["has_short_period_giant"] = giants["pl_orbper"] <= SHORT_PERIOD_DAYS
 
-    giants["has_short_period_giant"] = (
-            giants["pl_orbper"] <= SHORT_PERIOD_DAYS
+    hosts = giants.groupby("hostname", as_index=False).agg(
+        st_met=("st_met", "median"),
+        has_short_period_giant=(
+            "has_short_period_giant",
+            "max",
+        ),
+        n_giant_planets=("pl_name", "nunique"),
+        min_giant_period=("pl_orbper", "min"),
     )
 
-    hosts = (
-        giants.groupby("hostname", as_index=False)
-        .agg(
-            st_met=("st_met", "median"),
-            has_short_period_giant=(
-                "has_short_period_giant",
-                "max",
-            ),
-            n_giant_planets=("pl_name", "nunique"),
-            min_giant_period=("pl_orbper", "min"),
-        )
-    )
+    short_period_hosts = hosts[hosts["has_short_period_giant"]].copy()
 
-    short_period_hosts = hosts[
-        hosts["has_short_period_giant"]
-    ].copy()
-
-    comparison_hosts = hosts[
-        ~hosts["has_short_period_giant"]
-    ].copy()
+    comparison_hosts = hosts[~hosts["has_short_period_giant"]].copy()
 
     return GiantPlanetHostPopulations(
         short_period_hosts=short_period_hosts,
