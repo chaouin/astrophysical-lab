@@ -82,3 +82,26 @@ class EvidenceAssessment:
     support_score: float
     neutral_score: float
     contradict_score: float
+
+
+@dataclass(frozen=True)
+class HypothesisSpec:
+    question: str
+    statement: str
+    literature_claim: str
+
+    independent_variable: str
+    dependent_variable: str
+    expected_relation: str
+
+    population_a: str
+    population_b: str
+
+    statistical_test: str
+    data_source: str
+
+@dataclass(frozen=True)
+class InvestigationReport:
+    hypothesis: HypothesisSpec
+    literature_evidence: tuple[EvidenceAssessment, ...]
+    experiment: ExperimentResult

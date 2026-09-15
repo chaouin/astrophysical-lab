@@ -1,11 +1,11 @@
 from dataclasses import dataclass
+from astrophysical_lab.config import (
+    MAX_GIANT_MASS_JUPITER,
+    MIN_GIANT_MASS_JUPITER,
+    SHORT_PERIOD_DAYS,
+)
 
 import pandas as pd
-
-
-MIN_GIANT_MASS_JUPITER = 0.3
-MAX_GIANT_MASS_JUPITER = 13.0
-SHORT_PERIOD_DAYS = 10.0
 
 
 @dataclass(frozen=True)
@@ -60,11 +60,18 @@ def build_giant_planet_host_populations(
         )
     ].copy()
 
+    giants = clean[
+        clean["pl_bmassj"].between(
+            MIN_GIANT_MASS_JUPITER,
+            MAX_GIANT_MASS_JUPITER,
+            inclusive="both",
+        )
+    ].copy()
+
     giants["has_short_period_giant"] = (
-        giants["pl_orbper"] <= SHORT_PERIOD_DAYS
+            giants["pl_orbper"] <= SHORT_PERIOD_DAYS
     )
 
-    # Collapse multiple planets around the same star into one host-level record.
     hosts = (
         giants.groupby("hostname", as_index=False)
         .agg(
