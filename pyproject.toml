@@ -32,3 +32,6 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 88
 target-version = "py311"
+
+[project.scripts]
+astrolab = "astrophysical_lab.cli:main"
