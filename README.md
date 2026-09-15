@@ -291,8 +291,8 @@ updated.
 
 The generic NLI model can also misclassify scientific statements,
 particularly hedged, interrogative, or domain-specific language. Its output
-should therefore be interpreted as a retrieval aid rather than scientific
-evidence.
+should therefore be interpreted as heuristic evidence signal 
+rather than scientific evidence.
 
 Finally, the statistical analysis measures an observational association and
 does not establish causality.
